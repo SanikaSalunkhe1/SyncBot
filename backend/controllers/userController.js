@@ -3,7 +3,7 @@ import httpsStatus from "http-status";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { transporter } from "../config/mail.js";
-import { generateRandomPassword } from "../utils/generatePassword.js";
+import { generateRandomPassword , generateMeetingCode } from "../utils/generatePassword.js";
 
 // User Registration
 export const register = async (req, res) => {
@@ -26,11 +26,15 @@ export const register = async (req, res) => {
     const plainPassword = generateRandomPassword();
     const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
+    // Generate unique meeting code
+    const meetingCode = generateMeetingCode();
+
     // Create user
     await User.create({
       email,
       username,
-      password: hashedPassword
+      password: hashedPassword ,
+      meetingCode
     });
 
     // Send password to email
@@ -39,7 +43,8 @@ export const register = async (req, res) => {
         from: process.env.EMAIL_USER,
         to: email,
         subject: "SyncMeet - Your Account Password",
-        text: `Welcome to SyncMeet!\n\nYour account has been created successfully.\n\nUsername: ${username}\nPassword: ${plainPassword}\n\nPlease change your password after logging in for the first time.\n\nBest regards,\nSyncMeet Team`
+        text: `Welcome to SyncMeet!\n\nYour account has been created successfully.\n\nUsername: ${username}\nPassword: ${plainPassword}\n\nYour Personal Meeting Code: ${meetingCode}\n\nUse this meeting code to start or join meetings.
+            \n\nPlease change your password after logging in for the first time.\n\nBest regards,\nSyncMeet Team`
       });
       console.log("Email sent successfully to:", email);
     } catch (mailErr) {

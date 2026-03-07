@@ -11,7 +11,7 @@ const meetingSchema = new Schema({
     meetingCode : {
         type : String,
         required : true , 
-        trim : true
+        unique : true
     } , 
 
     date :{

@@ -17,6 +17,7 @@
     "@mui/material": "^7.3.7",
     "@mui/styled-engine-sc": "^7.3.7",
     "axios": "^1.13.2",
+    "framer-motion": "^12.29.2",
     "http-status": "^2.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

@@ -12,7 +12,13 @@ const UserSchema = new Schema({
     password : {
         type : String,
         required : true
-    } 
+    } ,
+
+    meetingCode : {
+        type : String,
+        required : true , 
+        unique : true
+    } , 
     // token : {
     //     type : String,
     //     required : false
