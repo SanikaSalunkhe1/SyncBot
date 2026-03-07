@@ -133,7 +133,7 @@ export default function HistoryPage() {
   const handleJoinMeeting = async (meetingCode) => {
     try {
       await addToUserHistory(meetingCode);
-      navigate(`/${meetingCode}`);
+      navigate(`/meet/${meetingCode}`);
     } catch (error) {
       console.error('Failed to join meeting:', error);
     }

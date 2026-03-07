@@ -104,7 +104,7 @@ export default function HomePage() {
   const handleJoinVideoCall = async () => {
     if (!meetingCode.trim()) return;
     await addToUserHistory(meetingCode);
-    navigate(`/${meetingCode}`);
+    navigate(`/meet/${meetingCode}`);
   };
 
   const handleKeyPress = (e) => {

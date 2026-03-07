@@ -66,11 +66,15 @@ export default function VideoMeetComponent() {
 
     // }
 
-    useEffect(() => {
-        console.log("HELLO")
-        getPermissions();
+    // useEffect(() => {
+    //     console.log("HELLO")
+    //     getPermissions();
 
-    })
+    // })
+
+    useEffect(() => {
+        getPermissions();
+    }, []);
 
     let getDislayMedia = () => {
         if (screen) {
@@ -468,7 +472,9 @@ export default function VideoMeetComponent() {
                 </div> :
 
 
-                <div className={styles.meetVideoContainer}>
+                // <div className={styles.meetVideoContainer}>
+                <div className="meetVideoContainer">
+
 
                     {showModal ? <div className={styles.chatRoom}>
 
@@ -501,7 +507,9 @@ export default function VideoMeetComponent() {
                     </div> : <></>}
 
 
-                    <div className={styles.buttonContainers}>
+                    {/* <div className={styles.buttonContainers}> */}
+                    <div className={styles.bottomContainers}>
+
                         <IconButton onClick={handleVideo} style={{ color: "white" }}>
                             {(video === true) ? <VideocamIcon /> : <VideocamOffIcon />}
                         </IconButton>
