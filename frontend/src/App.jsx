@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import LandingPage from "./pages/landingPage.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -9,12 +8,9 @@ import VdoConf from './pages/vdoConf.jsx';
 import HomePage from './pages/homePage.jsx';
 import HistoryPage from './pages/historyPage.jsx';
 
-
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    // <Router>
+    <Router>
       <Routes>
         <Route path="/" element={<LandingPage />}/>
         <Route path="/auth/register" element={<Signup/>} />
@@ -24,8 +20,8 @@ function App() {
         {/* <Route path="/meet/:url" element={<VdoComponent/>} /> */}
         <Route path="/home" element={<HomePage/>} />
         <Route path="/history" element={<HistoryPage/>} /> 
-      </Routes> 
-    // </Router>
+      </Routes>
+    </Router>
   );
 }
 
