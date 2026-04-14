@@ -18,7 +18,14 @@ const server = createServer(app);
 connectToSocket(server);
 
 app.set("port", process.env.PORT || 8000);
-app.use(cors());
+// app.use(cors());
+
+// CORS: allow Vercel frontend in production, open in local dev
+const corsOptions = process.env.FRONTEND_URL
+  ? { origin: process.env.FRONTEND_URL, credentials: true }
+  : {};
+app.use(cors(corsOptions));
+
 app.use(express.json({ limit: "50kb" }));
 app.use(express.urlencoded({ extended: true, limit: "50kb" }));
 
