@@ -1,3 +1,3 @@
-const server = "http://localhost:8000"; // backend URL
+const server = "https://syncmeet-3ool.onrender.com"
 
 export default server;
