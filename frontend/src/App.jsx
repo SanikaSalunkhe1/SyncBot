@@ -1,6 +1,6 @@
 import './App.css'
 import LandingPage from "./pages/LandingPage.jsx";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Signup from './pages/signupPage.jsx';
 import LoginPage from './pages/loginPage.jsx';
 // import VdoComponent from './pages/newVdoComponent.jsx';
@@ -10,7 +10,6 @@ import HistoryPage from './pages/historyPage.jsx';
 
 function App() {
   return (
-    <Router>
       <Routes>
         <Route path="/" element={<LandingPage />}/>
         <Route path="/auth/register" element={<Signup/>} />
@@ -21,7 +20,6 @@ function App() {
         <Route path="/home" element={<HomePage/>} />
         <Route path="/history" element={<HistoryPage/>} /> 
       </Routes>
-    </Router>
   );
 }
 
