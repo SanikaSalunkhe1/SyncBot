@@ -27,16 +27,16 @@ export default function SignupPage() {
   e.preventDefault();
   if(!formData.username || !formData.email)  return;
 
-
   try {
     await handleRegister(
       formData.username,
       formData.email,
-      // formData.password
     );
-    navigate("/auth/login");
+    // handleRegister already navigates to login on success
   } catch (err) {
-    alert("Registration failed");
+    console.error("Signup error details:", err);
+    const errorMsg = err.response?.data?.message || err.message || "Registration failed";
+    alert(errorMsg);
   }
 };
 

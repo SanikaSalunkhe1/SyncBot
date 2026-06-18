@@ -32,16 +32,21 @@ export const AuthProvider = ({ children }) => {
 
     const handleRegister = async (username, email ) => {
         try {
+            console.log("Attempting registration with:", { username, email });
             const res = await client.post("/register" ,{
                 username , 
                 email , 
             });
 
+            console.log("Registration response:", res.status, res.data);
+            
             if (res.status === httpStatus.CREATED) {
+                console.log("Registration successful, navigating to login");
                 navigate('/auth/login');
                 return res.data.message;
             }
         } catch (err) {
+            console.error("Registration error:", err.response?.status, err.response?.data || err.message);
             throw err;
         }
     }
