@@ -29,30 +29,30 @@ export const register = async (req, res) => {
     // Generate unique meeting code
     const meetingCode = generateMeetingCode();
 
-    // Create user
-    await User.create({
-      email,
-      username,
-      password: hashedPassword ,
-      meetingCode
-    });
-
-    // Send password to email
+    // Send password to email FIRST before creating user
+    // This way, if email fails, no orphaned user is left in the DB
     try {
       await transporter.sendMail({
         from: process.env.EMAIL_USER,
         to: email,
         subject: "SyncMeet - Your Account Password",
-        text: `Welcome to SyncMeet!\n\nYour account has been created successfully.\n\nUsername: ${username}\nPassword: ${plainPassword}\n\nYour Personal Meeting Code: ${meetingCode}\n\nUse this meeting code to start or join meetings.
-            \n\nPlease change your password after logging in for the first time.\n\nBest regards,\nSyncMeet Team`
+        text: `Welcome to SyncMeet!\n\nYour account has been created successfully.\n\nUsername: ${username}\nPassword: ${plainPassword}\n\nYour Personal Meeting Code: ${meetingCode}\n\nUse this meeting code to start or join meetings.\n\nPlease keep this email safe — this is the only time your password will be sent.\n\nBest regards,\nSyncMeet Team`
       });
       console.log("Email sent successfully to:", email);
     } catch (mailErr) {
-      console.error("Failed to send email:", mailErr);
-      return res.status(httpsStatus.CREATED).json({ 
-        message: "User registered successfully but failed to send email. Contact support."
+      console.error("Failed to send email:", mailErr.message);
+      return res.status(httpsStatus.INTERNAL_SERVER_ERROR).json({
+        message: "Failed to send password email. Registration aborted. Please try again or contact support."
       });
     }
+
+    // Only create user after email is confirmed sent
+    await User.create({
+      email,
+      username,
+      password: hashedPassword,
+      meetingCode
+    });
 
     return res.status(httpsStatus.CREATED).json({ message: "User registered successfully. Please check your email for the password." });
 

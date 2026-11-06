@@ -3,11 +3,16 @@ import mongoose, { Schema } from 'mongoose';
 const UserSchema = new Schema({
     email : {
         type : String,
-        required : true
+        required : true,
+        unique : true,
+        trim : true,
+        lowercase : true
     } , 
     username : {
         type : String,
-        required : true
+        required : true,
+        unique : true,
+        trim : true
     } , 
     password : {
         type : String,
