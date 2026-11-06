@@ -26,17 +26,12 @@ export const addToHistory = async (req , res) => {
             return res.status(httpStatus.NOT_FOUND).json({ message : "Meeting not found. Invalid meeting code." });
         }
 
-        //prevent duplicate entries for the same meeting code
-        const existingEntry = await Meeting.findOne({ user : userId , meetingCode });
-
-        if(existingEntry) {
-            return res.status(httpStatus.CONFLICT).json({ message : "Meeting already exists in history" });
-        }
-
-        await Meeting.create ( {
-            user : userId , 
-            meetingCode 
-        });
+        //prevent duplicate entries for the same meeting code — update date if already exists
+        await Meeting.findOneAndUpdate(
+            { user : userId , meetingCode },
+            { $set: { date: new Date() } },
+            { upsert: true }
+        );
 
         return res.status(httpStatus.CREATED).json({ message : "Meeting added to history successfully" });
     }

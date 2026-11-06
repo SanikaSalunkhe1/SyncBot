@@ -21,8 +21,22 @@ app.set("port", process.env.PORT || 8000);
 // app.use(cors());
 
 // CORS: allow Vercel frontend in production, open in local dev
-const corsOptions = process.env.FRONTEND_URL
-  ? { origin: process.env.FRONTEND_URL, credentials: true }
+const allowedOrigins = process.env.FRONTEND_URL
+  ? process.env.FRONTEND_URL.split(",").map(o => o.trim())
+  : null;
+
+const corsOptions = allowedOrigins
+  ? {
+      origin: (origin, callback) => {
+        // Allow requests with no origin (mobile apps, curl, Postman) or matching origins
+        if (!origin || allowedOrigins.some(o => origin.startsWith(o))) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS: " + origin));
+        }
+      },
+      credentials: true
+    }
   : {};
 app.use(cors(corsOptions));
 

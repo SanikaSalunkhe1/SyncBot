@@ -5,12 +5,15 @@ let messages = {};
 let timeOnline = {};
 
 const connectToSocket = (server) => {
-    const io = new Server(server , {
-        cors : {
-            origin : "*",
-            methods : ["GET" , "POST"] , 
-            allowedHeaders : ["my-custom-header"] , 
-            credentials : true
+    const allowedOrigins = process.env.FRONTEND_URL
+        ? process.env.FRONTEND_URL.split(",").map(o => o.trim())
+        : ["*"];
+
+    const io = new Server(server, {
+        cors: {
+            origin: allowedOrigins.length === 1 && allowedOrigins[0] === "*" ? "*" : allowedOrigins,
+            methods: ["GET", "POST"],
+            credentials: true
         }
     });
 
